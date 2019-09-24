@@ -1,66 +1,64 @@
+#include "cryptlib.h"
+#define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
+#include "md5.h"
+#include "hex.h"
+#include "files.h"
+
+#include <time.h>
 #include <iostream>
 
-void set (std::string &s, int max) {
-	for (int i = 0; i < max; i++)
-		s = s + ' ';
+void reset (std::string &s) {
+	for (int i = 0; i < s.size(); i++)
+		s[i] = 'a';
 }
 
-void inc (std::string &s, int i) {
-	if (s[i] >= '~') {
-		s[i] = ' ';
-		inc(s, i-1);
+void inc (std::string &s, std::string &verif, int i) {
+	if (s == verif) {
+		reset(s);
+		s += 'a';
+		verif += 'z';
+	}
+
+	if (s[i] >= 'z') {
+		s[i] = 'a';
+		inc(s, verif, i-1);
 	} else {
 		s[i]++;
 	}
 }
 
-std::string bruteForce (std::string msg, std::string result) {
-
-	int size = 0, nbM = 0;
-	std::string l, Stmp;
-
-	for (int i = 0; i < msg.size(); i++) {
-		if (msg[i] == '_')
-			size++;
-	}
-
-	set(l, size);
-
-	int i = 0;
-
-	while (Stmp != result) {
-		i++;
-		Stmp = "";
-		nbM = 0;
-		for (int i = 0; i < msg.size(); i++) {
-			if (msg[i] == '_') {
-				Stmp += l[nbM];
-				nbM++;
-			} else {
-				Stmp += msg[i];
-			}
-		}
-		std::cout << Stmp << std::endl;
-		inc (l, size - 1);
-	}
-
-	return Stmp;
-}
-
 int main() {
+	using namespace CryptoPP;
+	HexEncoder encoder(new FileSink(std::cout));
+	
+	std::string msg = "zzzzzza", msg1 = "a", verif = "z";
+	std::string digest, digest1;
 
-	std::string msg;
-	std::string result;
+	Weak::MD5 hash;
+	hash.Update((const byte*)msg.data(), msg.size());
+	digest.resize(hash.DigestSize());
+	hash.Final((byte*)&digest[0]);
 
-	std::cout << "Mot avec les lettres manquantes : ";
-	getline(std::cin, msg);
+	hash.Update((const byte*)msg1.data(), msg1.size());
+	digest1.resize(hash.DigestSize());
+	hash.Final((byte*)&digest1[0]);
+	
+	clock_t t1=clock();
+	while((digest != digest1) && (msg1.size() <= msg.size())) {
+		inc(msg1, verif, msg1.size() - 1);
 
-	std::cout << "Mot voulus : ";
-	getline(std::cin, result);
+		hash.Update((const byte*)msg1.data(), msg1.size());
+		digest1.resize(hash.DigestSize());
+		hash.Final((byte*)&digest1[0]);	
+	}
 
-
-	result = bruteForce(msg, result);
-	//std::cout << bruteForce(msg, result) << std::endl;
+	if(msg1.size() > msg.size())
+		std::cerr << "Salut mon pote" << std::endl;
+	else {
+		clock_t t2= clock();
+		float temps = (float)(t2-t1)/CLOCKS_PER_SEC;
+		std::cout << temps << " s"<< std::endl;
+	}
 
   	return 0;
 }
