@@ -12,6 +12,15 @@ void reset (std::string &s) {
 		s[i] = 'a';
 }
 
+void hash (std::string &s, std::string &digest){
+	using namespace CryptoPP;
+	HexEncoder encoder(new FileSink(std::cout));
+	Weak::MD5 hash;
+	hash.Update((const byte*)s.data(), s.size());
+	digest.resize(hash.DigestSize());
+	hash.Final((byte*)&digest[0]);
+}
+
 void inc (std::string &s, std::string &verif, int i) {
 	if (s == verif) {
 		reset(s);
@@ -28,28 +37,18 @@ void inc (std::string &s, std::string &verif, int i) {
 }
 
 int main() {
-	using namespace CryptoPP;
-	HexEncoder encoder(new FileSink(std::cout));
 	
-	std::string msg = "zzzzzza", msg1 = "a", verif = "z";
+	std::string msg = "zzza", msg1 = "a", verif = "z";
 	std::string digest, digest1;
 
-	Weak::MD5 hash;
-	hash.Update((const byte*)msg.data(), msg.size());
-	digest.resize(hash.DigestSize());
-	hash.Final((byte*)&digest[0]);
-
-	hash.Update((const byte*)msg1.data(), msg1.size());
-	digest1.resize(hash.DigestSize());
-	hash.Final((byte*)&digest1[0]);
+	hash(msg, digest);
+	hash(msg1, digest1);
 	
 	clock_t t1=clock();
 	while((digest != digest1) && (msg1.size() <= msg.size())) {
 		inc(msg1, verif, msg1.size() - 1);
-
-		hash.Update((const byte*)msg1.data(), msg1.size());
-		digest1.resize(hash.DigestSize());
-		hash.Final((byte*)&digest1[0]);	
+		
+		hash(msg1, digest1);
 	}
 
 	if(msg1.size() > msg.size())
