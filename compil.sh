@@ -42,9 +42,9 @@ else
 		mkdir build;
 	fi
 
-	g++ -DNDEBUG -g2 -O2 -I ${lib} src/singleThread.cpp -o build/pro.exe ${lib}/libcryptopp.a;
-	g++ -DNDEBUG -g2 -O2 -I ${lib} src/dualThread.cpp -o build/pro.exe ${lib}/libcryptopp.a;
-	g++ -DNDEBUG -g2 -O2 -I ${lib} src/quadThread.cpp -o build/pro.exe ${lib}/libcryptopp.a;
+	g++ -DNDEBUG -g2 -O2 -I ${lib} src/singleThread.cpp -o build/singleThread.exe ${lib}/libcryptopp.a;
+	g++ -DNDEBUG -g2 -O2 -I ${lib} src/dualThread.cpp -o build/dualThread.exe ${lib}/libcryptopp.a;
+	g++ -DNDEBUG -g2 -O2 -I ${lib} src/quadThread.cpp -o build/quadThread.exe ${lib}/libcryptopp.a;
 fi
 
 #Verifier le nombre d'arguments
