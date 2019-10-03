@@ -37,14 +37,14 @@ void inc (std::string &s, std::string &verif, int i) {
 }
 
 int main() {
+	clock_t t1=clock();
 	
-	std::string msg = "zzza", msg1 = "a", verif = "z";
+	std::string msg = "zzzza", msg1 = "a", verif = "z";
 	std::string digest, digest1;
 
 	hash(msg, digest);
 	hash(msg1, digest1);
 	
-	clock_t t1=clock();
 	while((digest != digest1) && (msg1.size() <= msg.size())) {
 		inc(msg1, verif, msg1.size() - 1);
 		
