@@ -27,6 +27,12 @@ void hash (std::string &s, std::string &digest){
 }
 
 void inc (std::string &s, std::string &verif, int i, char l) {
+	
+	if (i < 0 || i > s.size()) {
+		std::cerr << "ERREUR : indice impossible" << std::endl;
+		break;
+	}
+
 	if (s == verif) {
 		reset(s, l);
 		s += 'a';
@@ -80,7 +86,7 @@ int main() {
 	param2[2] = "b";
 	param2[3];
 	param2[4] = "z"; 		// Verification mot de fin thread1
-	param2[5] = 'a';
+	param2[5] = 'b';
 
 	//std::cerr << param[0] << std::endl;
 
@@ -94,10 +100,10 @@ int main() {
 	pthread_t th2;
 
 	pthread_create(&th1, NULL, dechiffre, (void *)param);
-//	pthread_create(&th2, NULL, dechiffre, (void *)param2);
+	pthread_create(&th2, NULL, dechiffre, (void *)param2);
 
 	pthread_join(th1, NULL);
-/*	pthread_join(th2, NULL);
+	pthread_join(th2, NULL);
 
 	//std::cerr << param[0] << std::endl;
 
@@ -109,6 +115,6 @@ int main() {
 		float temps = (float)(t2-t1)/CLOCKS_PER_SEC;
 		std::cout << temps << " s"<< std::endl;
 	}
-*/
+
   	return 0;
 }
