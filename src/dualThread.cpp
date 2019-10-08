@@ -7,6 +7,8 @@
 #include <time.h>
 #include <iostream>
 
+typedef std::chrono::high_resolution_clock Clock;
+
 bool trouve = false;
 
 void reset (std::string &s, char l) {
@@ -58,17 +60,16 @@ void * dechiffre (void * arg) {
 	std::string result = param[0];
 	std::string digestResult;
 
-	std::string composition = param[2];
+	std::string composition = param[1];
 	std::string digestComposition;
 
-	std::string endWord = param[4];
+	std::string endWord = param[2];
 
 	hash(result, digestResult);
 	hash(composition, digestComposition);
 
 	while((digestComposition != digestResult) && (!trouve)) {
-		//std::cerr << param[2] << std::endl;
-		inc(composition, endWord, composition.size() - 1, param[5][0]);
+		inc(composition, endWord, composition.size() - 1, param[1][0]);
 		
 		hash(composition, digestComposition);
 	}
@@ -82,41 +83,41 @@ void * dechiffre (void * arg) {
 }
 
 int main() {
-	clock_t t1=clock();
+	auto t1 = Clock::now();
 
-	std::string * param = new std::string[6];
-	std::string * param2 = new std::string[6];
+	std::string result = "zzza";
+	int nbThread = 2;
 
-	param[0] = "zzza";		// Mot voulant etre obtenu
-	param[1]; 				// Digest du mot voulante etre obtenu
-	param[2] = "a"; 		// Lettre depart thread1
-	param[3]; 				// Digest mot depart thread1
-	param[4] = "y";
-	param[5] = 'a';
+	std::string ** tab = new std::string * [2];
 
-	param2[0] = "zzza";	// Mot voulant etre obtenu
-	param2[1];
-	param2[2] = "b";
-	param2[3];
-	param2[4] = "z"; 		// Verification mot de fin thread1
-	param2[5] = 'b';
+	for (int i = 0; i < 2; i++)
+		tab[i] = new std::string[3];
+
+	tab[0][0] = result;
+	tab[0][1] = "a";
+	tab[0][2] = "y";
+
+	tab[1][0] = result;
+	tab[1][1] = "b";
+	tab[1][2] = "z";
 
 	pthread_t th1;
 	pthread_t th2;
 
-	pthread_create(&th1, NULL, dechiffre, (void *)param);
-	pthread_create(&th2, NULL, dechiffre, (void *)param2);
+	pthread_create(&th1, NULL, dechiffre, (void *)tab[0]);
+	pthread_create(&th2, NULL, dechiffre, (void *)tab[1]);
 
 	pthread_join(th1, NULL);
 	pthread_join(th2, NULL);
 
-	if((param[2].size() && param[4].size()) > param[0].size())
-		std::cerr << "Salut mon pote" << std::endl;
-	else {
-		clock_t t2 = clock();
-		float temps = (float)(t2-t1)/CLOCKS_PER_SEC;
-		std::cout << temps << " s"<< std::endl;
-	}
 
+	
+
+
+		auto t2 = Clock::now();
+		float temps = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
+		temps = temps/1000;
+		std::cout << "Temps: " << temps << " seconds" << std::endl;
+		
   	return 0;
 }
