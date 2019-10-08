@@ -30,7 +30,7 @@ void inc (std::string &s, std::string &verif, int i, char l) {
 	
 	if (i < 0 || i > s.size()) {
 		std::cerr << "ERREUR : indice impossible" << std::endl;
-		break;
+		return;
 	}
 
 	if (s == verif) {
@@ -55,15 +55,28 @@ void * dechiffre (void * arg) {
 
 	std::string * param = (std::string*)arg;
 
-	while((param[3] != param[1]) && (!trouve)) {
+	std::string result = param[0];
+	std::string digestResult;
+
+	std::string composition = param[2];
+	std::string digestComposition;
+
+	std::string endWord = param[4];
+
+	hash(result, digestResult);
+	hash(composition, digestComposition);
+
+	while((digestComposition != digestResult) && (!trouve)) {
 		//std::cerr << param[2] << std::endl;
-		inc(param[2], param[4], param[2].size() - 1, param[5][0]);
+		inc(composition, endWord, composition.size() - 1, param[5][0]);
 		
-		hash(param[2], param[3]);
+		hash(composition, digestComposition);
 	}
 
-	if (param[3] == param[1])
+	if (digestComposition == digestResult) {
 		trouve = true;
+		std::cerr << result << " | " << composition << std::endl; 
+	}
 
 	return(NULL);
 }
@@ -74,27 +87,19 @@ int main() {
 	std::string * param = new std::string[6];
 	std::string * param2 = new std::string[6];
 
-	param[0] = "zzzza";		// Mot voulant etre obtenu
+	param[0] = "zzza";		// Mot voulant etre obtenu
 	param[1]; 				// Digest du mot voulante etre obtenu
 	param[2] = "a"; 		// Lettre depart thread1
 	param[3]; 				// Digest mot depart thread1
 	param[4] = "y";
 	param[5] = 'a';
 
-	param2[0] = "zzzza";	// Mot voulant etre obtenu
+	param2[0] = "zzza";	// Mot voulant etre obtenu
 	param2[1];
 	param2[2] = "b";
 	param2[3];
 	param2[4] = "z"; 		// Verification mot de fin thread1
 	param2[5] = 'b';
-
-	//std::cerr << param[0] << std::endl;
-
-	hash(param[0], param[1]);
-	hash(param[2], param[3]);
-
-	hash(param2[0], param2[1]);
-	hash(param2[2], param2[3]);
 
 	pthread_t th1;
 	pthread_t th2;
@@ -104,9 +109,6 @@ int main() {
 
 	pthread_join(th1, NULL);
 	pthread_join(th2, NULL);
-
-	//std::cerr << param[0] << std::endl;
-
 
 	if((param[2].size() && param[4].size()) > param[0].size())
 		std::cerr << "Salut mon pote" << std::endl;
