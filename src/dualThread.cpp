@@ -7,6 +7,8 @@
 #include <time.h>
 #include <iostream>
 
+typedef std::chrono::high_resolution_clock Clock;
+
 bool trouve = false;
 
 void reset (std::string &s, char l) {
@@ -30,7 +32,7 @@ void inc (std::string &s, std::string &verif, int i, char l) {
 	
 	if (i < 0 || i > s.size()) {
 		std::cerr << "ERREUR : indice impossible" << std::endl;
-		break;
+		return;
 	}
 
 	if (s == verif) {
@@ -69,7 +71,7 @@ void * dechiffre (void * arg) {
 }
 
 int main() {
-	clock_t t1=clock();
+	auto t1 = Clock::now();
 
 	std::string * param = new std::string[6];
 	std::string * param2 = new std::string[6];
@@ -102,6 +104,7 @@ int main() {
 	pthread_create(&th1, NULL, dechiffre, (void *)param);
 	pthread_create(&th2, NULL, dechiffre, (void *)param2);
 
+	
 	pthread_join(th1, NULL);
 	pthread_join(th2, NULL);
 
@@ -111,10 +114,11 @@ int main() {
 	if((param[2].size() && param[4].size()) > param[0].size())
 		std::cerr << "Salut mon pote" << std::endl;
 	else {
-		clock_t t2 = clock();
-		float temps = (float)(t2-t1)/CLOCKS_PER_SEC;
-		std::cout << temps << " s"<< std::endl;
+		auto t2 = Clock::now();
+		float temps = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
+		temps = temps/1000;
+		std::cout << "Temps: " << temps << " seconds" << std::endl;
 	}
-
+	
   	return 0;
 }
