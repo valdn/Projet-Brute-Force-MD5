@@ -7,8 +7,6 @@
 #include <time.h>
 #include <iostream>
 
-typedef std::chrono::high_resolution_clock Clock;
-
 void reset (std::string &s) {
 	for (int i = 0; i < s.size(); i++)
 		s[i] = 'a';
@@ -39,7 +37,7 @@ void inc (std::string &s, std::string &verif, int i) {
 }
 
 int main() {
-	auto t1 = Clock::now();
+	clock_t t1=clock();
 	
 	std::string msg = "zzzza", msg1 = "a", verif = "z";
 	std::string digest, digest1;
@@ -56,10 +54,9 @@ int main() {
 	if(msg1.size() > msg.size())
 		std::cerr << "Salut mon pote" << std::endl;
 	else {
-		auto t2 = Clock::now();
-		float temps = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
-		temps = temps/1000;
-		std::cout << "Temps: " << temps << " seconds" << std::endl;
+		clock_t t2= clock();
+		float temps = (float)(t2-t1)/CLOCKS_PER_SEC;
+		std::cout << temps << " s"<< std::endl;
 	}
 
   	return 0;

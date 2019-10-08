@@ -76,16 +76,15 @@ void * dechiffre (void * arg) {
 
 	if (digestComposition == digestResult) {
 		trouve = true;
-		std::cerr << result << " | " << composition << std::endl; 
 	}
 
 	return(NULL);
 }
 
 int main() {
-auto t1 = Clock::now();
+	auto t1 = Clock::now();
 
-	std::string result = "zzza";
+	std::string result = "zzzza";
 	int nbThread = 2;
 
 	std::string ** tab = new std::string * [2];
@@ -111,12 +110,10 @@ auto t1 = Clock::now();
 	pthread_join(th1, NULL);
 	pthread_join(th2, NULL);
 
-
-	
-
 	auto t2 = Clock::now();
 	float temps = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
 	temps = temps / 1000;
 	std::cerr << "Temps: " << temps << " seconds" << std::endl;
+
   	return 0;
 }
