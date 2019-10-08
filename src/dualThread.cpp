@@ -83,7 +83,7 @@ void * dechiffre (void * arg) {
 }
 
 int main() {
-	auto t1 = Clock::now();
+auto t1 = Clock::now();
 
 	std::string result = "zzza";
 	int nbThread = 2;
@@ -107,17 +107,16 @@ int main() {
 	pthread_create(&th1, NULL, dechiffre, (void *)tab[0]);
 	pthread_create(&th2, NULL, dechiffre, (void *)tab[1]);
 
+	
 	pthread_join(th1, NULL);
 	pthread_join(th2, NULL);
 
 
 	
 
-
-		auto t2 = Clock::now();
-		float temps = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
-		temps = temps/1000;
-		std::cout << "Temps: " << temps << " seconds" << std::endl;
-		
+	auto t2 = Clock::now();
+	float temps = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
+	temps = temps / 1000;
+	std::cerr << "Temps: " << temps << " seconds" << std::endl;
   	return 0;
 }
