@@ -10,6 +10,7 @@
 typedef std::chrono::high_resolution_clock Clock;
 
 bool trouve = false;
+int nbThread;
 
 void reset (std::string &s, char l) {
 
@@ -41,7 +42,7 @@ void inc (std::string &s, std::string &verif, int i, char l) {
 		verif += 'z';
 	} else {
 		if (i == 0) {
-			s[i]++;
+			s[i] += (nbThread - 1);
 		}
 	
 		if (s[i] >= 'z') {
@@ -94,17 +95,16 @@ std::string tablo(int nbThread, indice) {
 
 int main() {
 	std::string result = "zzzza";
-	int nbThread;
 	std::cin >> nbThread;
 
-	const std::string ** tab = new const std::string * [nbThread];
+	std::string ** tab = new std::string * [nbThread];
 
 	for (int i = 0; i < nbThread; i++)
 		tab[i] = new std::string[3];
 
 	char lettre = 'a';
 	for (int i = 0; i < nbThread; i++) {
-		const_cast<std::string>(tab[i])[0] = result;
+		tab[i][0] = result;
 		tab[i][1] = (lettre + i);
 		tab[i][2] = (lettre + (26 - (((25 - i)%nbThread)) - 1));
 	}
