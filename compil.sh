@@ -58,11 +58,11 @@ else
 		mkdir build;
 	fi
 
-	g++ -DNDEBUG -g2 -O2 -I ${lib} src/singleThread.cpp -o build/singleThread.exe ${lib}/libcryptopp.a;
-	echo "Compilation singleThread.cpp reussie";
+	g++ -DNDEBUG -g2 -O2 -I ${lib} src/sequentiel.cpp -o build/sequentiel.exe ${lib}/libcryptopp.a;
+	echo "Compilation sequentiel.cpp reussie";
 
-	g++ -DNDEBUG -g2 -O2 -I ${lib} src/maxThread.cpp -o build/maxThread.exe ${lib}/libcryptopp.a -lpthread;
-	echo "Compilation maxThread.cpp reussie";
+	g++ -DNDEBUG -g2 -O2 -I ${lib} src/multiThread.cpp -o build/multiThread.exe ${lib}/libcryptopp.a -lpthread;
+	echo "Compilation multiThread.cpp reussie";
 	echo;
 	
 	echo "Execution des tests de temps";
@@ -70,11 +70,11 @@ else
 	echo "Mot: za" > temps.log;
 	echo "=========" >> temps.log;
 
-	./build/singleThread.exe za >> temps.log;
-	./build/maxThread.exe 2 za >> temps.log;
-	./build/maxThread.exe 4 za >> temps.log;
-	./build/maxThread.exe 8 za >> temps.log;
-	./build/maxThread.exe 26 za >> temps.log;
+	./build/sequentiel.exe za >> temps.log;
+	./build/multiThread.exe 2 za >> temps.log;
+	./build/multiThread.exe 4 za >> temps.log;
+	./build/multiThread.exe 8 za >> temps.log;
+	./build/multiThread.exe 26 za >> temps.log;
 	echo "  Mot de 2 caracteres";
 
 
@@ -82,11 +82,11 @@ else
 	echo "Mot: zza" >> temps.log;
 	echo "=========" >> temps.log;
 
-	./build/singleThread.exe zza >> temps.log;
-	./build/maxThread.exe 2 zza >> temps.log;
-	./build/maxThread.exe 4 zza >> temps.log;
-	./build/maxThread.exe 8 zza >> temps.log;
-	./build/maxThread.exe 26 zza >> temps.log;
+	./build/sequentiel.exe zza >> temps.log;
+	./build/multiThread.exe 2 zza >> temps.log;
+	./build/multiThread.exe 4 zza >> temps.log;
+	./build/multiThread.exe 8 zza >> temps.log;
+	./build/multiThread.exe 26 zza >> temps.log;
 	echo "  Mot de 3 caracteres";
 
 	
@@ -94,11 +94,11 @@ else
 	echo "Mot: zzza" >> temps.log;
 	echo "=========" >> temps.log;
 
-	./build/singleThread.exe zzza >> temps.log;
-	./build/maxThread.exe 2 zzza >> temps.log;
-	./build/maxThread.exe 4 zzza >> temps.log;
-	./build/maxThread.exe 8 zzza >> temps.log;
-	./build/maxThread.exe 26 zzza >> temps.log;
+	./build/sequentiel.exe zzza >> temps.log;
+	./build/multiThread.exe 2 zzza >> temps.log;
+	./build/multiThread.exe 4 zzza >> temps.log;
+	./build/multiThread.exe 8 zzza >> temps.log;
+	./build/multiThread.exe 26 zzza >> temps.log;
 	echo "  Mot de 4 caracteres";
 
 
@@ -106,11 +106,11 @@ else
 	echo "Mot: zzzza" >> temps.log;
 	echo "=========" >> temps.log;
 
-	./build/singleThread.exe zzzza >> temps.log;
-	./build/maxThread.exe 2 zzzza >> temps.log;
-	./build/maxThread.exe 4 zzzza >> temps.log;
-	./build/maxThread.exe 8 zzzza >> temps.log;
-	./build/maxThread.exe 26 zzzza >> temps.log;
+	./build/sequentiel.exe zzzza >> temps.log;
+	./build/multiThread.exe 2 zzzza >> temps.log;
+	./build/multiThread.exe 4 zzzza >> temps.log;
+	./build/multiThread.exe 8 zzzza >> temps.log;
+	./build/multiThread.exe 26 zzzza >> temps.log;
 	echo "  Mot de 5 caracteres";
 
 
@@ -118,11 +118,11 @@ else
 	echo "Mot: zzzzza" >> temps.log;
 	echo "=========" >> temps.log;
 
-	./build/singleThread.exe zzzzza >> temps.log;
-	./build/maxThread.exe 2 zzzzza >> temps.log;
-	./build/maxThread.exe 4 zzzzza >> temps.log;
-	./build/maxThread.exe 8 zzzzza >> temps.log;
-	./build/maxThread.exe 26 zzzzza >> temps.log;
+	./build/sequentiel.exe zzzzza >> temps.log;
+	./build/multiThread.exe 2 zzzzza >> temps.log;
+	./build/multiThread.exe 4 zzzzza >> temps.log;
+	./build/multiThread.exe 8 zzzzza >> temps.log;
+	./build/multiThread.exe 26 zzzzza >> temps.log;
 	echo "  Mot de 6 caracteres";
 
 	echo;
@@ -140,7 +140,7 @@ else
 	cat /proc/meminfo > meminfo.txt;
 	sudo lshw -C memory > cacheinfo.txt;
 fi
-
+#
 #Verifier le nombre d'arguments
 
 #Si 0 arg
