@@ -38,11 +38,17 @@ void inc (std::string &s, std::string &verif, int i) {
 	}
 }
 
-int main() {
-	auto t1 = Clock::now();
+int main(int argc, char *argv[]) {
 	
-	std::string msg = "zzzza", msg1 = "a", verif = "z";
+	if(argc != 2) {
+		std::cerr << "./singleThread.exe <Mot a chercher>" << std::endl;
+		return 0;
+	}
+
+	std::string msg = argv[1], msg1 = "a", verif = "z";
 	std::string digest, digest1;
+
+	auto t1 = Clock::now();
 
 	hash(msg, digest);
 	hash(msg1, digest1);
@@ -54,12 +60,13 @@ int main() {
 	}
 
 	if(msg1.size() > msg.size())
-		std::cerr << "Salut mon pote" << std::endl;
+		std::cerr << "ERREUR : erreur impossible" << std::endl;
 	else {
 		auto t2 = Clock::now();
 		float temps = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
 		temps = temps/1000;
-		std::cout << "Temps: " << temps << " seconds" << std::endl;
+		std::cout << "Nombre Thread(s): 1";
+		std::cout << " | Temps: " << temps << " seconds" << std::endl;
 	}
 
   	return 0;

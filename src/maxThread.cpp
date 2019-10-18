@@ -82,11 +82,35 @@ void * dechiffre (void * arg) { //fonction pour déchiffrer la chaine de caracte
 	return(NULL);
 }
 
-int main() {
-	do {
+int main(int argc, char *argv[]) {
+
+	if (argc != 3) {
+		std::cerr << "./maxThread.exe <Nb thread> <Mot a chercher>" << std::endl;
+		return 0;
+	}
+
+	std::string arg = argv[1];
+
+	if(arg == "2") {
+		nbThread = 2;
+	} else if(arg == "4") {
+		nbThread = 4;
+	} else if(arg == "8") {
+		nbThread = 8;
+	} else if(arg == "26") {
+		nbThread = 26;
+	} else {
+		std::cerr << "Arguments nbThread incorrects" << std::endl;
+		return 0;
+	}
+
+	result = argv[2];
+
+	/*do {
 	std::cout<< "Nombre de thread (2,4,8,26) > " <<std::endl;
 	std::cin >> nbThread;                                         //nombre de thread voulu
-	} while (nbThread!=2 && nbThread!=4 && nbThread!=8 && nbThread!=26);
+	} while (nbThread!=2 && nbThread!=4 && nbThread!=8 && nbThread!=26);*/
+
 
 	std::string ** tab = new std::string * [nbThread];
 
@@ -114,7 +138,8 @@ int main() {
 	auto t2 = Clock::now(); //fin du chrono
 	float temps = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
 	temps = temps / 1000;
-	std::cerr << "Temps: " << temps << " seconds" << std::endl;
+	std::cout << "Nombre Thread(s): " << nbThread;
+	std::cout << " | Temps: " << temps << " seconds" << std::endl;
 
   	return 0;
 }
