@@ -11,7 +11,7 @@ typedef std::chrono::high_resolution_clock Clock;
 
 int nbThread;
 bool trouve = false;
-std::string result = "farine"; //resultat voulu
+std::string result= ""; //résultat voulu
 
 void reset (std::string &s, char l) { //on reset le mot quand tous les threads sont arrivés a leur dernier mot possible
 
@@ -85,7 +85,7 @@ void * dechiffre (void * arg) { //fonction pour déchiffrer la chaine de caracte
 int main(int argc, char *argv[]) {
 
 	if (argc != 3) {
-		std::cerr << "./maxThread.exe <Nb thread> <Mot a chercher>" << std::endl;
+		std::cerr << "./multiThread.exe <Nb thread> <Mot a chercher>" << std::endl;
 		return 0;
 	}
 
