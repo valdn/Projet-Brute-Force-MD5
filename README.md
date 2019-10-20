@@ -3,6 +3,10 @@ Projet c++ de cassage d'empreinte MD5 en brute force.
 Propose par notre professeur.  
 Programme par jeremy et valentin.
 
+**Sommaire**
+
+[TOC]
+
 ## Compilation et Execution
 Pour utiliser ce programme il vous faudrat d'abord extraire et compiler la librairie cryptoPP. 
 Il faudrat ensuite compiler separement multiThread.cpp et sequentiel.cpp en sachant que multithread necessite la librairie -lpthread.  
@@ -29,3 +33,51 @@ Pour optimiser la vitesse de cassage d'empreinte MD5, nous utilisons un nombre p
 |2|b|b -> f -> j -> n -> r -> v -> z|z|
 |3|c|c -> g -> k -> o -> s -> w|w|
 |4|d|d -> h -> l -> p -> t -> x|x|
+
+## Algorithme sequentiel
+### Fonction Main
+![](https://raw.githubusercontent.com/Jeremy-JRM/M3101-MD5-BruteForce/master/algo/AlgoSequentielMain.png "Main function algo")
+
+### Fonction incremente
+![](https://raw.githubusercontent.com/Jeremy-JRM/M3101-MD5-BruteForce/master/algo/AlgoSequentielIncremente.png "Incremente function algo")
+
+### Fonction reset
+![](https://raw.githubusercontent.com/Jeremy-JRM/M3101-MD5-BruteForce/master/algo/AlgoSequentielReset.png "Reset function algo")
+
+
+## Disposition des lettres
+### Pour 2 threads
+|Thread 1|Thread 2|
+|---|---|
+|aa|ba|
+|ca|da|
+|ea|fa|
+|ga|ha|
+|ia|ja|
+|ka|la|
+|ma|na|
+|oa|pa|
+|qa|ra|
+|sa|ta|
+|ua|va|
+|wa|xa|
+|ya|za|
+
+### Pour 4 threads
+|Thread 1|Thread 2|Thread 3|Thread 4|
+|---|---|---|---|
+|aa|ba|ca|da|
+|ea|fa|ga|ha|
+|ia|ja|ka|la|
+|ma|na|oa|pa|
+|qa|ra|sa|ta|
+|ua|va|wa|xa|
+|ya|za|
+
+### Pour 8 threads
+|Thread 1|Thread 2|Thread 3|Thread 4|Thread 5|Thread 6|Thread 7|Thread 8|
+|---|---|---|---|---|---|---|---|
+|aa|ba|ca|da|ea|fa|ga|ha|
+|ia|ja|ka|la|ma|na|oa|pa|
+|qa|ra|sa|ta|ua|va|wa|xa|
+|ya|za|
