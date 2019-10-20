@@ -136,9 +136,9 @@ else
 		mkdir info;
 	fi
 
-	cat /proc/cpuinfo > cpuinfo.txt;
-	cat /proc/meminfo > meminfo.txt;
-	sudo lshw -C memory > cacheinfo.txt;
+	cat /proc/cpuinfo > info/cpuinfo.txt;
+	cat /proc/meminfo > info/meminfo.txt;
+	sudo lshw -C memory > info/cacheinfo.txt;
 fi
 #
 #Verifier le nombre d'arguments
