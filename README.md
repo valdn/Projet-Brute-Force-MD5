@@ -3,10 +3,6 @@ Projet c++ de cassage d'empreinte MD5 en brute force.
 Propose par notre professeur.  
 Programme par jeremy et valentin.
 
-**Sommaire**
-
-[TOC]
-
 ## Compilation et Execution
 Pour utiliser ce programme il vous faudrat d'abord extraire et compiler la librairie cryptoPP. 
 Il faudrat ensuite compiler separement multiThread.cpp et sequentiel.cpp en sachant que multithread necessite la librairie -lpthread.  
