@@ -4,7 +4,7 @@ Propose par notre professeur.
 Programme par jeremy et valentin.
 
 ## Compilation et Execution
-Pour utiliser ce programme il vous faudrat d'abord extraire et compiler la librairie cryptoPP. 
+Pour utiliser ce programme il vous faudra d'abord extraire et compiler la librairie cryptoPP. 
 Il faudrat ensuite compiler separement multiThread.cpp et sequentiel.cpp en sachant que multithread necessite la librairie -lpthread.  
 Le script bash compil.sh s'occupe de tout faire pour vous.
 
